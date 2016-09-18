@@ -1,5 +1,6 @@
 .row
   .column    
+    = link_to 'Check now', check_site_path(@site), method: :post, class: 'ui right floated secondary button', data: { tooltip: 'Perform check immediately', disable_with: "Checking…" }
     h1.ui.header
       => link_to sites_path, class: 'ui basic button', data: { tooltip: 'Back to sites index' } do
         i.left.arrow.icon

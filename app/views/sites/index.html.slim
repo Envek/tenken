@@ -29,6 +29,8 @@
                     | Check pending…
                 td
                   .ui.right.floated.menu
+                    = link_to check_site_path(site), method: :post, class: 'popup icon item', data: { tooltip: 'Perform check immediately', disable_with: "Checking…" } do
+                      i.refresh.icon
                     = link_to site_checks_path(site_id: site.id), class: 'popup icon item', data: { tooltip: 'See history' } do
                       i.list.icon
                     = link_to edit_site_path(site), class: 'popup icon item', data: { tooltip: 'Edit' } do

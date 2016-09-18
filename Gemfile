@@ -36,6 +36,12 @@ gem 'trailblazer-rails'
 gem 'reform', '>= 2.2.0'
 gem 'reform-rails'
 
+# Abstracts HTTP interactions and allows to switch HTTP adapters easily
+gem 'httpi'
+
+# Handles URI parsing with support for IDNs and more closely conforms to various URI-related RFCs
+gem 'addressable'
+
 # ActiveModel validation of URLs based on Addressable
 gem 'validate_url'
 
@@ -54,6 +60,11 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  # Allows to check interactions with external HTTP services
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

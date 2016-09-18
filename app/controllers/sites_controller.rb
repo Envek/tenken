@@ -35,4 +35,10 @@ class SitesController < ApplicationController
       return redirect_to sites_path, notice: 'Site was deleted'
     end
   end
+
+  def check
+    run Site::Check do |operation|
+      return redirect_to site_check_path(operation.model, operation.check)
+    end
+  end
 end
