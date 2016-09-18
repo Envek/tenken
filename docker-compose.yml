@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+  web:
+    build: .
+    ports:
+      - "0.0.0.0:3000:3000"
+    volumes:
+      - .:/tenken
+    depends_on:
+      - redis
+      - postgresql
+    environment:
+      DATABASE_URL: 'postgresql://tenken:tenken@postgresql/tenken'
+      REDIS_URL:    'redis://redis:6379/1'
+      TERM: xterm
+    command: bundle exec rails server -b 0.0.0.0 -P /tmp/server.pid
+    #tty:        true
+    stdin_open: true
+
+  sidekiq:
+    build: .
+    volumes:
+      - .:/tenken
+    depends_on:
+      - redis
+      - postgresql
+    environment:
+      DATABASE_URL: 'postgresql://tenken:tenken@postgresql/tenken'
+      REDIS_URL:    'redis://redis:6379/1'
+      TERM: xterm
+    command: bundle exec sidekiq -q default -q mailers
+    #tty:        true
+    stdin_open: true
+
+  redis:
+    image: redis
+    volumes:
+      - './tmp/redis:/data'
+    command: redis-server --appendonly yes
+
+  postgresql:
+    image: postgres
+    environment:
+      POSTGRES_USER:     tenken
+      POSTGRES_PASSWORD: tenken
+      POSTGRES_DB:       tenken
+      PGDATA:            /var/lib/postgresql/data/pgdata
+    volumes:
+      - './tmp/postgres:/var/lib/postgresql/data'
