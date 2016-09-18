@@ -1,0 +1,19 @@
+= form_for @form, html: { class: 'ui form' } do |f|
+
+  - if @form.errors.any?
+    .ui.red.message
+      p Change a few things up and try submitting again.
+      ul
+        - @form.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :uri, 'URL'
+    = f.url_field :uri
+
+  .field
+    = f.label :name, 'Name'
+    = f.text_field :name
+
+  .field
+    = f.submit 'Save', class: 'ui primary button'

@@ -1,0 +1,37 @@
+.row
+  .column
+    .ui.right.floated.menu
+      = link_to new_site_path, class: 'popup primary icon item', data: { tooltip: 'Add new site' } do
+        i.plus.icon
+    h1.ui.header Sites
+    .ui.two.column.grid
+      .sixteen.wide.column
+        table.ui.celled.structured.table
+          thead
+            tr
+              th URL
+              th Last check
+              th
+          tbody
+            - @collection.each do |site|
+              tr
+                td
+                  = link_to site.uri, site.uri
+                  - if site.name.present?
+                    div.small = site.name
+                td
+                  - if check = site.checks.first
+                    = link_to 'More', site_check_path(site, check), class: 'ui right floated primary button'
+                    .ui.label> class=(check.success ? 'green' : 'red')
+                      = check.response_code && "HTTP #{check.response_code}" || 'Error'
+                    = I18n.localize(check.finished_at)
+                  - else
+                    | Check pending…
+                td
+                  .ui.right.floated.menu
+                    = link_to site_checks_path(site_id: site.id), class: 'popup icon item', data: { tooltip: 'See history' } do
+                      i.list.icon
+                    = link_to edit_site_path(site), class: 'popup icon item', data: { tooltip: 'Edit' } do
+                      i.edit.icon
+                    = link_to site_path(site), method: :delete, class: 'popup icon item danger', data: { tooltip: 'Delete' } do
+                      i.remove.icon

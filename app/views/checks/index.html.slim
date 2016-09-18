@@ -1,0 +1,29 @@
+.row
+  .column    
+    h1.ui.header
+      => link_to sites_path, class: 'ui basic button', data: { tooltip: 'Back to sites index' } do
+        i.left.arrow.icon
+      | Checks for #{@site.uri}
+    .ui.two.column.grid
+      .sixteen.wide.column
+        table.ui.celled.structured.table
+          thead
+            tr
+              th Started at
+              th Finished at
+              th Result
+              th
+          tbody
+            - @collection.each do |check|
+              tr
+                td
+                  = I18n.localize(check.started_at)
+                td
+                  = I18n.localize(check.finished_at)
+                td
+                  ' Got
+                  .ui.label> class=(check.success ? 'green' : 'red')
+                    = check.response_code && "HTTP #{check.response_code}" || 'error'
+                  | after #{check.duration} seconds
+                td
+                  = link_to 'More', site_check_path(@site, check), class: 'ui right floated primary button'

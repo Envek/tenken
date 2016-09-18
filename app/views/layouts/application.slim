@@ -1,0 +1,17 @@
+doctype html
+html lang=I18n.locale
+  head
+    title Tenken
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+  body
+
+    .ui.inverted.menu
+      .header.item 点検
+      = link_to sites_path, class: 'active item' do
+        | Sites
+
+    .ui.container.grid
+    
+      = yield

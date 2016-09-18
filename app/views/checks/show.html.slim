@@ -1,0 +1,56 @@
+.row
+  .column    
+    h1.ui.header
+      => link_to site_checks_path(@site), class: 'ui basic button', data: { tooltip: 'Back to site checks index' } do
+        i.left.arrow.icon
+      | Check details
+
+    .ui.grid
+
+      .six.wide.column
+        h2.ui.header Sumary
+        .ui.relaxed.divided.list
+          .item
+            i.large.clock.middle.aligned.icon
+            .content
+              .header = I18n.localize @model.started_at
+              .description Launched at
+          .item
+            i.large.clock.middle.aligned.icon
+            .content
+              .header = I18n.localize @model.finished_at
+              .description Finished at
+          .item
+            i.large.clock.middle.aligned.icon
+            .content
+              .header #{@model.duration} seconds
+              .description Completed in
+          .item
+            i.large.flag.middle.aligned.icon
+            .content
+              .header = @model.success ? 'SUCCESS' : 'FAILURE'
+              .description Result
+          .item
+            i.large.code.middle.aligned.icon
+            .content
+              .header = @model.response_code || 'Not received'
+              .description HTTP Status code
+        
+      .ten.wide.column
+
+        - if @model.response_headers.present?
+          h2.ui.header Headers
+          table.ui.celled.structured.table
+            thead
+              tr
+                th Header
+                th Value
+            tbody
+              - @model.response_headers.each do |header, value|
+                tr
+                  td = header
+                  td = value
+
+        - if @model.details
+          h2.ui.header Details
+          pre = @model.details
