@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Site::CheckTest < MiniTest::Spec
-
   before do
     @site = Site.find_or_create_by!(uri: 'https://example.com')
     HTTPI.log = false

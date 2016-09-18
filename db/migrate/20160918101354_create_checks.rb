@@ -8,7 +8,7 @@ class CreateChecks < ActiveRecord::Migration[5.0]
       t.integer    :response_code,                 comment: 'HTTP response code'
       t.jsonb      :response_headers,              comment: 'A key-value object of received HTTP headers'
       t.text       :details,                       comment: 'Technical details for debugging'
-      t.datetime   :created_at,       null: false
+      t.datetime   :created_at, null: false
       # This model meant to never be changed so updated_at column is not necessary
     end
     add_index :checks, [:site_id, :created_at], order: { created_at: :desc }

@@ -1,5 +1,4 @@
 class ChecksController < ApplicationController
-
   before_action do
     @site = Site.find(params.require(:site_id))
   end

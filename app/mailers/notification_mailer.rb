@@ -1,5 +1,4 @@
 class NotificationMailer < ApplicationMailer
-
   def failed_email(site, check)
     @site  = site
     @check = check
