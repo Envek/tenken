@@ -21,7 +21,10 @@ class Site::Check < Trailblazer::Operation
     started_at = Time.current
     result = perform_request!
     @check = @model.checks.create!(result.merge(started_at: started_at, finished_at: Time.current))
+    enqueue_notifications!
   end
+
+  protected
 
   def perform_request!
     uri = Addressable::URI.parse(@model.uri).normalize
@@ -31,5 +34,25 @@ class Site::Check < Trailblazer::Operation
     { success: response.code == 200, response_code: response.code, response_headers: response.headers }
   rescue *NETWORK_ERRORS => e
     { success: false, details: "#{e.class}: #{e.message}" }
+  end
+
+  def enqueue_notifications!
+    if !@check.success
+      if @model.failing_since.present?
+        failing_duration = @check.finished_at - @model.failing_since
+        return unless Settings.notification_times_in_minutes.any? do |n|
+          time_passed  = failing_duration > n.minutes
+          was_notified = (@model.last_notification_at || @model.failing_since) >= @model.failing_since + n.minutes
+          time_passed && !was_notified
+        end
+        @model.update(last_notification_at: @check.finished_at)
+        NotificationMailer.failed_email(@model, @check).deliver_later
+      else
+        @model.update(failing_since: @check.finished_at)
+      end
+    elsif @check.success && @model.failing_since.present?
+      @model.update(failing_since: nil, last_notification_at: @check.finished_at)
+      NotificationMailer.restored_email(@model, @check).deliver_later
+    end
   end
 end

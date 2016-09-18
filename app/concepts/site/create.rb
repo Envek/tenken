@@ -8,6 +8,7 @@ class Site::Create < Trailblazer::Operation
 
     property :uri, validates: { presence: true, url: true }
     property :name
+    property :notification_email, validates: { presence: true, email: { domain: true, mx_with_fallback: true } }
     validates_uniqueness_of :uri
   end
 

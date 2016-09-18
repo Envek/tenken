@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918101354) do
+ActiveRecord::Schema.define(version: 20160918204938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,11 +29,25 @@ ActiveRecord::Schema.define(version: 20160918101354) do
     t.index ["site_id"], name: "index_checks_on_site_id", using: :btree
   end
 
-  create_table "sites", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.string   "uri",        null: false, comment: "Full URI that will be checked (with protocol and path)"
-    t.string   "name",                    comment: "Short name displayed to humans"
+  create_table "comments", force: :cascade do |t|
+    t.integer  "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sites", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.string   "uri",                  null: false, comment: "Full URI that will be checked (with protocol and path)"
+    t.string   "name",                              comment: "Short name displayed to humans"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.datetime "failing_since"
+    t.string   "notification_email"
+    t.datetime "last_notification_at"
   end
 
   add_foreign_key "checks", "sites", on_update: :cascade, on_delete: :cascade

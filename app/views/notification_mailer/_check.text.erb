@@ -1,0 +1,24 @@
+Check details
+-------------
+
+**<%= @check.success ? 'SUCCESS' : 'FAILURE' %>**
+
+Launched at:      <%= I18n.localize @check.started_at %>
+Finished at:      <%= I18n.localize @check.started_at %>
+Completed in:     <%= @check.duration %> seconds
+HTTP Status code: <%= @check.response_code || 'Not received' %>
+
+<%- if @check.response_headers.present? -%>
+### Headers
+
+<%- @check.response_headers.each do |header, value| -%>
+<%= header %>
+  <%= value %>
+<%- end -%>
+<%- end -%>
+
+<%- if @check.details -%>
+### Details
+
+<%= @check.details %>
+<%- end -%>

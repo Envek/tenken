@@ -1,0 +1,8 @@
+SITE CHECK FAILING NOTIFICATION
+===============================
+
+Site check for <%= @site.uri %> is being failed for <%= (@check.finished_at - @site.failing_since) / 60 %> minutes.
+
+Please follow this link: <%= site_checks_url(@site) %>
+
+<%= render 'check' %>

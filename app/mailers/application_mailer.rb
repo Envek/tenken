@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  default Settings.email_defaults.to_hash
   layout 'mailer'
 end

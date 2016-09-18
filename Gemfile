@@ -45,6 +45,9 @@ gem 'addressable'
 # ActiveModel validation of URLs based on Addressable
 gem 'validate_url'
 
+# Validates emails very strictly
+gem 'valid_email'
+
 # Semantic UI for theming
 gem 'semantic-ui-sass'
 
@@ -54,9 +57,13 @@ gem 'sidekiq', '~> 4.0'
 # Run scheduled tasks in Sidekiq
 gem 'sidekiq-cron', '~> 0.4.0'
 
+# Store heavy configs in Settings.yml
+gem 'config'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'dotenv-rails'
 end
 
 group :development do

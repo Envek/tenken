@@ -16,4 +16,8 @@
     = f.text_field :name
 
   .field
+    = f.label :name, 'Email for notifications'
+    = f.email_field :notification_email
+
+  .field
     = f.submit 'Save', class: 'ui primary button'

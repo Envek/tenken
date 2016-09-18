@@ -1,0 +1,20 @@
+# For development purposes redefine everything you want in settings.local.yml
+
+smtp:
+  address:              smtp.gmail.com
+  port:                 587
+  domain:               envek.name
+  user_name:            tenken@envek.name
+  password:             # Use Settings.smtp.password environment variable!
+  authentication:       plain
+  enable_starttls_auto: true
+
+email_defaults:
+  from: "Tenken site checker <tenken@envek.name>"
+
+notification_times_in_minutes:
+  -   3
+  -  10
+  -  50
+  - 100
+  - 500
